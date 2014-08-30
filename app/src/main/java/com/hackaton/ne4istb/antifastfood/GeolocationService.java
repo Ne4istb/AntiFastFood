@@ -18,10 +18,10 @@ public class GeolocationService extends Service {
         LocationListener locationListener = new CurrentLocationListener(this);
 
         locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 15 * 60 * 1000, 10, locationListener);
+                LocationManager.GPS_PROVIDER, CurrentLocationListener.UPDATE_PERIOD, 10, locationListener);
 
         locationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER, 15 * 60 * 1000, 10, locationListener);
+                LocationManager.NETWORK_PROVIDER, CurrentLocationListener.UPDATE_PERIOD, 10, locationListener);
 
         return super.onStartCommand(intent, flags, startId);
     }

@@ -4,8 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -19,7 +17,7 @@ public class TrackingService {
 
     public void Register() {
 
-        Intent alarmService = new Intent(context, OnTrackingAlarmIntentService.class);
+        Intent alarmService = new Intent(context, OnAreaEnterIntentService.class);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
 
         PendingIntent intent = PendingIntent.getService(context, 0, alarmService, PendingIntent.FLAG_UPDATE_CURRENT);
