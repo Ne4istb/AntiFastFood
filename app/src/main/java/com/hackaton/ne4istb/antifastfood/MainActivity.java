@@ -55,15 +55,15 @@ public class MainActivity extends Activity {
 
 //        if (firstRun || UtilsHelper.DEBUG) {
 //        if (firstRun) {
-        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+//        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
-        try {
-            if (status != ConnectionResult.SUCCESS) {
-                GooglePlayServicesUtil.getErrorDialog(status, this, 1).show();
-            }
-        } catch (Exception e) {
-            Log.e("Error: GooglePlayServiceUtil: ", "" + e);
-        }
+//        try {
+//            if (status != ConnectionResult.SUCCESS) {
+//                GooglePlayServicesUtil.getErrorDialog(status, this, 1).show();
+//            }
+//        } catch (Exception e) {
+//            Log.e("Error: GooglePlayServiceUtil: ", "" + e);
+//        }
 
             new TrackingService(this).Register();
 
