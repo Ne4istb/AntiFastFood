@@ -1,7 +1,7 @@
 {
-  "name": "antifastfood",
+  "name": "sidebarapp",
   "version": "1.0.0",
-  "description": "AntiFastFood: An Ionic project",
+  "description": "sideBarApp: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^0.7.1",
