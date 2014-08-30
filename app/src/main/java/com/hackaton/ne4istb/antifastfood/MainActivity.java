@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,17 +56,7 @@ public class MainActivity extends Activity {
 
 //        if (firstRun || UtilsHelper.DEBUG) {
 //        if (firstRun) {
-//        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
-//        try {
-//            if (status != ConnectionResult.SUCCESS) {
-//                GooglePlayServicesUtil.getErrorDialog(status, this, 1).show();
-//            }
-//        } catch (Exception e) {
-//            Log.e("Error: GooglePlayServiceUtil: ", "" + e);
-//        }
-
-            new TrackingService(this).Register();
+        startService(new Intent(this, GeolocationService.class));
 
 //            preference.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
 //        }
