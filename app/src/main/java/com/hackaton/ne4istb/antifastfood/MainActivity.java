@@ -8,21 +8,28 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 public class MainActivity extends Activity {
+
+    public static final String FIRST_RUN_PREFERENCE = "dearHamster.firstRun";
 
     WebSettings wSettings;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        onFirstRun();
 
         WebView webView = new WebView(this);
         webView.setClickable(true);
@@ -39,6 +46,31 @@ public class MainActivity extends Activity {
         webView.loadUrl("file:///android_asset/myhtml.html");
         setContentView(webView);
     }
+
+    private void onFirstRun() {
+
+//        SharedPreferences preference = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+
+//        boolean firstRun = preference.getBoolean(FIRST_RUN_PREFERENCE, true);
+
+//        if (firstRun || UtilsHelper.DEBUG) {
+//        if (firstRun) {
+        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        try {
+            if (status != ConnectionResult.SUCCESS) {
+                GooglePlayServicesUtil.getErrorDialog(status, this, 1).show();
+            }
+        } catch (Exception e) {
+            Log.e("Error: GooglePlayServiceUtil: ", "" + e);
+        }
+
+            new TrackingService(this).Register();
+
+//            preference.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
+//        }
+    }
+
 
     public class WebClientClass extends WebViewClient {
         ProgressDialog pd = null;
