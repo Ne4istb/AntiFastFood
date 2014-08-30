@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.IBinder;
+import android.util.Log;
 
 public class GeolocationService extends Service {
 
@@ -30,6 +31,4 @@ public class GeolocationService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-
-
 }

@@ -5,62 +5,130 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CurrentLocationListener implements LocationListener {
 
-    public static final int UPDATE_PERIOD = 30 * 1000;
-    private final LocationManager locationManager;
+    public static final int UPDATE_PERIOD = 15 * 60 * 1000;
+    private static final String PROX_ALERT_INTENT = "TEST";
+    private LocationManager locationManager;
+
     Context context;
 
     public CurrentLocationListener(Context context) {
         this.context = context;
-
-        locationManager = (LocationManager)
-                context.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override
     public void onLocationChanged(Location location) {
 
-        String message = Double.toString(location.getLatitude()) + ' ' +Double.toString(location.getLongitude());
+        String message = Double.toString(location.getLatitude()) + ' ' + Double.toString(location.getLongitude());
         setDebugNotification(message);
 
-        ArrayList<Coordinate> fastFoodLocations = getFastFoodLocations();
+        new ForsquareAsyncTask().execute(location.getLatitude(),location.getLongitude());
+    }
 
-        for (int i = 0 ; i < fastFoodLocations.size(); i++){
-            setAlertOnLocationEnter(fastFoodLocations.get(i));
+    private class ForsquareAsyncTask extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+
+            Double latitude = (Double) params[0];
+            Double longitude = (Double) params[1];
+
+            List<Coordinate> fastFoodLocations = getFastFoodLocations(latitude, longitude);
+
+            for (int i = 0; i < fastFoodLocations.size(); i++) {
+                setAlertOnLocationEnter(fastFoodLocations.get(i));
+            }
+
+            return null;
         }
 
-    }
+        private List<Coordinate> getFastFoodLocations(Double latitude, Double longitude) {
 
-    private void setAlertOnLocationEnter(Coordinate coordinate) {
-        PendingIntent onAreaEnterIntent =
-                PendingIntent.getService(context, 0, new Intent(context, OnAreaEnterIntentService.class), PendingIntent.FLAG_UPDATE_CURRENT);
+            String urlString = "https://api.foursquare.com/v2/venues/search?client_id=YQURAAEAW4SVCMUM4TZVPDQZRNDFU2SG4CVW0SXCKNMQ2321&client_secret=VGCVXSSKNWGIQLHMOOB5VLP1DO55ZDMMW1EI2A0KELMMWYMG&v=20140832%20&ll=" + Double.toString(latitude) + "," + Double.toString(longitude) + "&radius=3000&categoryId=4bf58dd8d48988d16e941735";
 
-        locationManager.addProximityAlert(coordinate.latitude, coordinate.longtitude, 50, UPDATE_PERIOD * 3, onAreaEnterIntent);
-    }
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpContext localContext = new BasicHttpContext();
+            HttpGet httpGet = new HttpGet(urlString);
 
-    private ArrayList getFastFoodLocations() {
+            List<Coordinate> coordinates = new ArrayList<Coordinate>();
 
-        ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+            try {
+                HttpResponse response = httpClient.execute(httpGet, localContext);
 
-        coordinates.add(new Coordinate(50.2345, 50.5432));
-        coordinates.add(new Coordinate(40.2345, 50.5432));
-        coordinates.add(new Coordinate(50.0045, 45.5432));
+                HttpEntity entity = response.getEntity();
 
-        return coordinates;
+                if (entity != null) {
+                    coordinates = parseResult(entity);
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            return coordinates;
+        }
+
+        private List<Coordinate> parseResult(HttpEntity entity) throws IOException, JSONException {
+
+            List<Coordinate> coordinates = new ArrayList<Coordinate>();
+
+            String jsonString = EntityUtils.toString(entity);
+            JSONObject result = new JSONObject(jsonString);
+            JSONObject responseJson = result.getJSONObject("response");
+            JSONArray venuesJson = responseJson.getJSONArray("venues");
+
+            for (int i = 0; i < venuesJson.length(); i++) {
+                JSONObject venueJson = venuesJson.getJSONObject(i);
+                JSONObject locationJSON = venueJson.getJSONObject("location");
+                Double latitude = locationJSON.getDouble("lat");
+                Double longitude = locationJSON.getDouble("lng");
+
+                coordinates.add(new Coordinate(latitude, longitude));
+            }
+
+            return coordinates;
+        }
+
+        private void setAlertOnLocationEnter(Coordinate coordinate) {
+
+            Intent intent = new Intent(PROX_ALERT_INTENT);
+            PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+            locationManager.addProximityAlert(coordinate.getLatitude(), coordinate.getLongtitude(), 100, CurrentLocationListener.UPDATE_PERIOD*2, proximityIntent);
+
+            IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT);
+            context.registerReceiver(new OnAreaEnterReceiver(), filter);
+        }
     }
 
     private void setDebugNotification(String message) {
-        Notification.Builder notificationBuilder =  new Notification.Builder(context);
+        Notification.Builder notificationBuilder = new Notification.Builder(context);
 
         PendingIntent openActivityIntent = PendingIntent.getActivity(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -71,39 +139,23 @@ public class CurrentLocationListener implements LocationListener {
                 .setContentTitle("recheck")
                 .setContentText(message)
                 .setVibrate(new long[]{500, 500})
-                .setSound(alarmSound)
+//                .setSound(alarmSound)
                 .setContentIntent(openActivityIntent)
                 .setAutoCancel(true);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-        nm.notify(0, notificationBuilder.build());
+        nm.notify(1, notificationBuilder.build());
     }
 
     @Override
-    public void onProviderDisabled(String provider) {}
+    public void onProviderDisabled(String provider) {
+    }
 
     @Override
-    public void onProviderEnabled(String provider) {}
+    public void onProviderEnabled(String provider) {
+    }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-    private class Coordinate {
-
-        private double latitude;
-        private double longtitude;
-
-        public Coordinate(double latitude, double longtitude) {
-            this.latitude = latitude;
-            this.longtitude = longtitude;
-        }
-
-        public double getLatitude() {
-            return latitude;
-        }
-
-        public double getLongtitude() {
-            return longtitude;
-        }
+    public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 }

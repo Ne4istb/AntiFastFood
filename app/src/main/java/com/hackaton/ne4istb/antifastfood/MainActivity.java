@@ -48,17 +48,13 @@ public class MainActivity extends Activity {
     private void onFirstRun() {
 
 //        SharedPreferences preference = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
-
 //        boolean firstRun = preference.getBoolean(FIRST_RUN_PREFERENCE, true);
-
 //        if (firstRun || UtilsHelper.DEBUG) {
 //        if (firstRun) {
         startService(new Intent(this, GeolocationService.class));
-
 //            preference.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
 //        }
     }
-
 
     public class WebClientClass extends WebViewClient {
         ProgressDialog pd = null;

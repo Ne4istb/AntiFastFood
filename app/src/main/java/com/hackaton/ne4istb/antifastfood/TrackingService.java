@@ -17,7 +17,7 @@ public class TrackingService {
 
     public void Register() {
 
-        Intent alarmService = new Intent(context, OnAreaEnterIntentService.class);
+        Intent alarmService = new Intent(context, OnAreaEnterReceiver.class);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
 
         PendingIntent intent = PendingIntent.getService(context, 0, alarmService, PendingIntent.FLAG_UPDATE_CURRENT);

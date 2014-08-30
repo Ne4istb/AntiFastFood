@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
     <application
         android:allowBackup="true"
@@ -22,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".OnAreaEnterIntentService"/>
+        <service android:name=".OnAreaEnterReceiver"/>
         <service android:name=".GeolocationService"/>
     </application>
 
