@@ -19,11 +19,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
+import android.widget.ImageView;
 
 public class SuggestionActivity extends Activity {
 
     private SuggestionAdapter mAdapter;
+    ImageView image;
 
     Location currentLocation;
 
@@ -40,6 +41,7 @@ public class SuggestionActivity extends Activity {
         mAdapter.setCurrentLocation(currentLocation);
 
         setItems();
+//        iconWay();
 
         ListView listView = (ListView) findViewById(R.id.fragment_list);
         listView.setAdapter(mAdapter);
@@ -192,5 +194,42 @@ public class SuggestionActivity extends Activity {
 //            return true;
 //        }
 //        return super.onOptionsItemSelected(item);
+//    }
+
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//
+//        View leftPaneFragment = findViewById(R.id.left_pane_fragment);
+//        View contentFrame = findViewById(R.id.content_frame);
+//
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            leftPaneFragment.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                    LinearLayout.LayoutParams.MATCH_PARENT, 8f));
+//            contentFrame.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                    LinearLayout.LayoutParams.MATCH_PARENT, 2f));
+//        }
+//        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            leftPaneFragment.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                    LinearLayout.LayoutParams.MATCH_PARENT, 7f));
+//            contentFrame.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                    LinearLayout.LayoutParams.MATCH_PARENT, 3f));
+//        }
+//    }
+//    public void iconWay() {
+//        image = (ImageView) findViewById(R.id.googleway);
+//
+//        AssetManager assetManager = getAssets();
+//
+//        InputStream inputStream = null;
+//
+//        try {
+//            inputStream = assetManager.open("way_1.png");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//        image.setImageBitmap(bitmap);
 //    }
 }
