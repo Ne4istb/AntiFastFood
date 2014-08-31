@@ -3,13 +3,8 @@ package com.hackaton.ne4istb.antifastfood;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -24,6 +19,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     public static final String FIRST_RUN_PREFERENCE = "dearHamster.firstRun";
 
     WebSettings wSettings;
+    boolean redirected = false;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -52,6 +48,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         webView.loadUrl("file:///android_asset/myhtml.html");
 
         setContentView(webView);
+
+        redirected = false;
     }
 
     private void onFirstRun() {
@@ -60,19 +58,18 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         boolean firstRun = preference.getBoolean(FIRST_RUN_PREFERENCE, true);
 //        if (firstRun || UtilsHelper.DEBUG) {
         if (firstRun) {
-        startService(new Intent(this, GeolocationService.class));
+            startService(new Intent(this, GeolocationService.class));
             preference.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
         }
     }
 
-    boolean redirected = false;
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         Log.e("GEO", "test");
         if (!redirected) {
             Intent intent = new Intent(this, SuggestionActivity.class);
             startActivity(intent);
-            redirected =true;
+            redirected = true;
         }
         return false;
     }

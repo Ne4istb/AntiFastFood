@@ -6,15 +6,13 @@ package com.hackaton.ne4istb.antifastfood;
 public class SuggestionRecord {
 
 
+    public String thumbnail;
     String id;
     String name;
     String address;
     String site;
     Integer distance;
-
     Coordinate coordinate;
-
-    public String thumbnail;
 
     public SuggestionRecord(String id, String name, String address, String site, Coordinate coordinate, Integer distance, String thumbnail) {
         this.id = id;

@@ -10,9 +10,6 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by ne4istb on 31.08.2014.
  */

@@ -1,19 +1,18 @@
 package com.hackaton.ne4istb.antifastfood;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -23,8 +22,8 @@ import java.util.ArrayList;
 
 public class SuggestionAdapter extends BaseAdapter {
 
-    private ArrayList<SuggestionRecord> list = new ArrayList<SuggestionRecord>();
     private static LayoutInflater inflater = null;
+    private ArrayList<SuggestionRecord> list = new ArrayList<SuggestionRecord>();
     private Context mContext;
     private Location location;
 
@@ -84,7 +83,6 @@ public class SuggestionAdapter extends BaseAdapter {
         holder.distance.setText(mContext.getString(R.string.distance) + " " + curr.getDistance() + " метрів");
 
 
-
         AssetManager assetManager = mContext.getAssets();
         InputStream inputStream = null;
         try {
@@ -94,7 +92,6 @@ public class SuggestionAdapter extends BaseAdapter {
         }
         Bitmap bMap = BitmapFactory.decodeStream(inputStream);
         holder.googleWay.setImageBitmap(bMap);
-
 
 
         Bitmap cachedImage = null;
@@ -148,15 +145,6 @@ public class SuggestionAdapter extends BaseAdapter {
         location = currentLocation;
     }
 
-    static class ViewHolder {
-        TextView name;
-        TextView address;
-        TextView site;
-        TextView distance;
-        ImageView image;
-        ImageView googleWay;
-    }
-
     public void add(SuggestionRecord listItem) {
         list.add(listItem);
         notifyDataSetChanged();
@@ -169,5 +157,14 @@ public class SuggestionAdapter extends BaseAdapter {
     public void removeAllViews() {
         list.clear();
         this.notifyDataSetChanged();
+    }
+
+    static class ViewHolder {
+        TextView name;
+        TextView address;
+        TextView site;
+        TextView distance;
+        ImageView image;
+        ImageView googleWay;
     }
 }

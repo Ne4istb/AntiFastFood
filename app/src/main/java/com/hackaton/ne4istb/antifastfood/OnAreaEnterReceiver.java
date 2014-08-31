@@ -24,7 +24,7 @@ public class OnAreaEnterReceiver extends BroadcastReceiver {
 
     private void showWarningNotification(Context context) {
 
-        Notification.Builder notificationBuilder =  new Notification.Builder(context);
+        Notification.Builder notificationBuilder = new Notification.Builder(context);
 
         Intent intent = new Intent(context, SuggestionActivity.class);
 

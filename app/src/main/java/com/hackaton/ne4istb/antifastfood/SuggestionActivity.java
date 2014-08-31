@@ -3,11 +3,6 @@ package com.hackaton.ne4istb.antifastfood;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -15,9 +10,6 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -25,19 +17,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 public class SuggestionActivity extends Activity {
 
-    private SuggestionAdapter mAdapter;
     Location currentLocation;
+    private SuggestionAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +180,7 @@ public class SuggestionActivity extends Activity {
 
                 JSONArray categoriesJSON = venueJson.getJSONArray("categories");
                 JSONObject primaryCategory = null;
-                for (int j=0; j<categoriesJSON.length(); j++){
+                for (int j = 0; j < categoriesJSON.length(); j++) {
                     if (categoriesJSON.getJSONObject(j).getBoolean("primary")) {
                         primaryCategory = categoriesJSON.getJSONObject(j);
                         break;

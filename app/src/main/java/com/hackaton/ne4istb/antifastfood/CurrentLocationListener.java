@@ -14,14 +14,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,11 +25,10 @@ import java.util.List;
 public class CurrentLocationListener implements LocationListener {
 
     public static final int UPDATE_PERIOD = 15 * 60 * 1000;
-    private static final String PROX_ALERT_INTENT = "TEST";
     public static final String FORSQUARE_SEARCH_URL = "https://api.foursquare.com/v2/venues/search?client_id=YQURAAEAW4SVCMUM4TZVPDQZRNDFU2SG4CVW0SXCKNMQ2321&client_secret=VGCVXSSKNWGIQLHMOOB5VLP1DO55ZDMMW1EI2A0KELMMWYMG&v=20140832%20";
-    private LocationManager locationManager;
-
+    private static final String PROX_ALERT_INTENT = "TEST";
     Context context;
+    private LocationManager locationManager;
 
     public CurrentLocationListener(Context context) {
         this.context = context;
@@ -50,7 +41,38 @@ public class CurrentLocationListener implements LocationListener {
 //        String message = Double.toString(location.getLatitude()) + ' ' + Double.toString(location.getLongitude());
 //        setDebugNotification(message);
 
-        new ForsquareAsyncTask().execute(location.getLatitude(),location.getLongitude());
+        new ForsquareAsyncTask().execute(location.getLatitude(), location.getLongitude());
+    }
+
+    private void setDebugNotification(String message) {
+        Notification.Builder notificationBuilder = new Notification.Builder(context);
+
+        PendingIntent openActivityIntent = PendingIntent.getActivity(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        notificationBuilder
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle("recheck")
+                .setContentText(message)
+                .setVibrate(new long[]{500, 500})
+                .setSound(alarmSound)
+                .setContentIntent(openActivityIntent)
+                .setAutoCancel(true);
+
+        NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        nm.notify(1, notificationBuilder.build());
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
     public class ForsquareAsyncTask extends AsyncTask {
@@ -113,41 +135,10 @@ public class CurrentLocationListener implements LocationListener {
             Intent intent = new Intent(PROX_ALERT_INTENT);
             PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
-            locationManager.addProximityAlert(coordinate.getLatitude(), coordinate.getLongtitude(), 100, CurrentLocationListener.UPDATE_PERIOD*2, proximityIntent);
+            locationManager.addProximityAlert(coordinate.getLatitude(), coordinate.getLongtitude(), 100, CurrentLocationListener.UPDATE_PERIOD * 2, proximityIntent);
 
             IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT);
             context.registerReceiver(new OnAreaEnterReceiver(), filter);
         }
-    }
-
-    private void setDebugNotification(String message) {
-        Notification.Builder notificationBuilder = new Notification.Builder(context);
-
-        PendingIntent openActivityIntent = PendingIntent.getActivity(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notificationBuilder
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("recheck")
-                .setContentText(message)
-                .setVibrate(new long[]{500, 500})
-                .setSound(alarmSound)
-                .setContentIntent(openActivityIntent)
-                .setAutoCancel(true);
-
-        NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-        nm.notify(1, notificationBuilder.build());
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 }
