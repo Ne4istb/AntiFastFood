@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,19 +56,24 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
     private void onFirstRun() {
 
-//        SharedPreferences preference = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
-//        boolean firstRun = preference.getBoolean(FIRST_RUN_PREFERENCE, true);
+        SharedPreferences preference = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+        boolean firstRun = preference.getBoolean(FIRST_RUN_PREFERENCE, true);
 //        if (firstRun || UtilsHelper.DEBUG) {
-//        if (firstRun) {
+        if (firstRun) {
         startService(new Intent(this, GeolocationService.class));
-//            preference.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
-//        }
+            preference.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
+        }
     }
 
+    boolean redirected = false;
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Intent intent = new Intent(this, SuggestionActivity.class);
-        startActivity(intent);
+        Log.e("GEO", "test");
+        if (!redirected) {
+            Intent intent = new Intent(this, SuggestionActivity.class);
+            startActivity(intent);
+            redirected =true;
+        }
         return false;
     }
 }

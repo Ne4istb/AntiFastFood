@@ -1,5 +1,6 @@
 package com.hackaton.ne4istb.antifastfood;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -11,6 +12,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -33,19 +37,23 @@ import android.widget.Toast;
 public class SuggestionActivity extends Activity {
 
     private SuggestionAdapter mAdapter;
-    ImageView image;
-
     Location currentLocation;
 
     @Override
-
-
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_suggestion);
 
-        setTitle(R.string.suggestions_title);
+        SpannableString s = new SpannableString(getString(R.string.suggestions_title));
+        s.setSpan(new TypefaceSpan("sans-serif-light"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // Update the action bar title with the TypefaceSpan instance
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(s);
+
+
+        setContentView(R.layout.activity_suggestion);
 
         mAdapter = new SuggestionAdapter(this);
 
@@ -97,9 +105,9 @@ public class SuggestionActivity extends Activity {
 
         String[] categories = new String[]{
                 "50aa9e744b90af0d42d5de0e", //Health Food Store
-                "52f2ab2ebcbc57f1066b8b1c", //Fruit & Vegetable Store
+//                "52f2ab2ebcbc57f1066b8b1c", //Fruit & Vegetable Store
                 "4bf58dd8d48988d1d3941735", //Vegetarian / Vegan Restaurant
-                "52f2ab2ebcbc57f1066b8b16", //Fishing Store
+//                "52f2ab2ebcbc57f1066b8b16", //Fishing Store
         };
 
         @Override
