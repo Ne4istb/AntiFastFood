@@ -1,17 +1,19 @@
 package com.hackaton.ne4istb.antifastfood;
 
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -70,14 +72,26 @@ public class SuggestionAdapter extends BaseAdapter {
         holder.address.setText(mContext.getString(R.string.address) + curr.getAddress());
         holder.site.setText(mContext.getString(R.string.site) + curr.getSite());
 
-        holder.googleWay.setImageBitmap(getIconWay());
+
+
+        AssetManager assetManager = mContext.getAssets();
+        InputStream inputStream = null;
+        try {
+            inputStream = assetManager.open("way_2.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Bitmap bMap = BitmapFactory.decodeStream(inputStream);
+        holder.googleWay.setImageBitmap(bMap);
+
+
 
         Bitmap cachedImage = null;
-
         try {
             cachedImage = imageLoader.loadImage(curr.getThumbnail(), new ImageThreadLoader.ImageLoadedListener() {
                 public void imageLoaded(Bitmap imageBitmap) {
                     holder.image.setImageBitmap(imageBitmap);
+
                     notifyDataSetChanged();
                 }
             });
@@ -106,21 +120,6 @@ public class SuggestionAdapter extends BaseAdapter {
         });
 
         return newView;
-    }
-
-    public Bitmap getIconWay() {
-
-        AssetManager assetManager = mContext.getAssets();
-
-        InputStream inputStream = null;
-
-        try {
-            inputStream = assetManager.open("way_1.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return BitmapFactory.decodeStream(inputStream);
     }
 
     public void setCurrentLocation(Location currentLocation) {
