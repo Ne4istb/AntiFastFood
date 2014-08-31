@@ -3,7 +3,10 @@ package com.hackaton.ne4istb.antifastfood;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -18,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,8 +45,6 @@ public class SuggestionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestion);
 
-//        void onConfigurationChanged();
-
         setTitle(R.string.suggestions_title);
 
         mAdapter = new SuggestionAdapter(this);
@@ -51,7 +53,6 @@ public class SuggestionActivity extends Activity {
         mAdapter.setCurrentLocation(currentLocation);
 
         setItems();
-//        iconWay();
 
         ListView listView = (ListView) findViewById(R.id.fragment_list);
         listView.setAdapter(mAdapter);
@@ -217,23 +218,5 @@ public class SuggestionActivity extends Activity {
 //            return true;
 //        }
 //        return super.onOptionsItemSelected(item);
-//    }
-
-
-//    public void iconWay() {
-//        image = (ImageView) findViewById(R.id.googleway);
-//
-//        AssetManager assetManager = getAssets();
-//
-//        InputStream inputStream = null;
-//
-//        try {
-//            inputStream = assetManager.open("way_1.png");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//        image.setImageBitmap(bitmap);
 //    }
 }
