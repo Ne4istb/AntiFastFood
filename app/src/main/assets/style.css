@@ -86,7 +86,7 @@ path.stroke-thin {
   border: 3px solid rgb(70, 138, 7);
   color: rgb(70, 138, 7);
 }
-.btn-1e:hover, .btn-1e:active {
+.btn-2e{
   color: #fff;
 }
 .btn-1e:after {
@@ -106,9 +106,16 @@ path.stroke-thin {
   overflow: hidden;
   opacity: 0;
 }
-.btn-1e:hover:after {
+html:active, html:hover .btn-1e,
+body:active, body:hover .btn-1e{
+  color: #fff;
+}
+.btn-1e.btn-2e:after,
+html:active, html:hover .btn-1e:after,
+body:active, body:hover .btn-1e:after{
   height: 180%;
   opacity: 1;
+  
 }
 .btn:after {
   content: '';

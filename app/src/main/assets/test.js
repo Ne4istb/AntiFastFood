@@ -1,4 +1,4 @@
-
+var nameElem,btnElem;
 (function() {
 
   'use strict';
@@ -73,16 +73,17 @@
       this.handle = window.requestAnimFrame(function() { self.draw(); });
     }
   };
+  nameElem = document.getElementById("mac")
+  btnElem = document.getElementById("btn")
 
   SVGEl.prototype.showImage = function() {
-    var nameElem = document.getElementById("mac")
-    var btnElem = document.getElementById("btn")
+    
 
     nameElem.classList.add("clear")
     setTimeout(function(){
       nameElem.classList.add('logoup')
       btnElem.classList.add('animation')
-    }, 200)
+    }, 200);
   };
 
   function getViewportH() {
@@ -163,6 +164,7 @@
 
     // window.addEventListener( 'resize', resizeHandler, false );
   }
+  
 
   init();
 
