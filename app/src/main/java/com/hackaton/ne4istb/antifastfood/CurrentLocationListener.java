@@ -34,6 +34,7 @@ public class CurrentLocationListener implements LocationListener {
 
     public static final int UPDATE_PERIOD = 15 * 60 * 1000;
     private static final String PROX_ALERT_INTENT = "TEST";
+    public static final String FORSQUARE_SEARCH_URL = "https://api.foursquare.com/v2/venues/search?client_id=YQURAAEAW4SVCMUM4TZVPDQZRNDFU2SG4CVW0SXCKNMQ2321&client_secret=VGCVXSSKNWGIQLHMOOB5VLP1DO55ZDMMW1EI2A0KELMMWYMG&v=20140832%20";
     private LocationManager locationManager;
 
     Context context;
@@ -46,13 +47,13 @@ public class CurrentLocationListener implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 
-        String message = Double.toString(location.getLatitude()) + ' ' + Double.toString(location.getLongitude());
-        setDebugNotification(message);
+//        String message = Double.toString(location.getLatitude()) + ' ' + Double.toString(location.getLongitude());
+//        setDebugNotification(message);
 
         new ForsquareAsyncTask().execute(location.getLatitude(),location.getLongitude());
     }
 
-    private class ForsquareAsyncTask extends AsyncTask {
+    public class ForsquareAsyncTask extends AsyncTask {
 
         @Override
         protected Object doInBackground(Object[] params) {
@@ -71,36 +72,28 @@ public class CurrentLocationListener implements LocationListener {
 
         private List<Coordinate> getFastFoodLocations(Double latitude, Double longitude) {
 
-            String urlString = "https://api.foursquare.com/v2/venues/search?client_id=YQURAAEAW4SVCMUM4TZVPDQZRNDFU2SG4CVW0SXCKNMQ2321&client_secret=VGCVXSSKNWGIQLHMOOB5VLP1DO55ZDMMW1EI2A0KELMMWYMG&v=20140832%20&ll=" + Double.toString(latitude) + "," + Double.toString(longitude) + "&radius=3000&categoryId=4bf58dd8d48988d16e941735";
-
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet(urlString);
-
             List<Coordinate> coordinates = new ArrayList<Coordinate>();
 
-            try {
-                HttpResponse response = httpClient.execute(httpGet, localContext);
+            String urlString = FORSQUARE_SEARCH_URL + "&ll=" + Double.toString(latitude) + "," + Double.toString(longitude) + "&radius=3000&categoryId=4bf58dd8d48988d16e941735";
 
-                HttpEntity entity = response.getEntity();
+            JSONObject entity = HttpHelper.HttpGet(urlString);
 
-                if (entity != null) {
+            if (entity != null) {
+                try {
                     coordinates = parseResult(entity);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
             }
 
             return coordinates;
         }
 
-        private List<Coordinate> parseResult(HttpEntity entity) throws IOException, JSONException {
+        private List<Coordinate> parseResult(JSONObject entity) throws IOException, JSONException {
 
             List<Coordinate> coordinates = new ArrayList<Coordinate>();
 
-            String jsonString = EntityUtils.toString(entity);
-            JSONObject result = new JSONObject(jsonString);
-            JSONObject responseJson = result.getJSONObject("response");
+            JSONObject responseJson = entity.getJSONObject("response");
             JSONArray venuesJson = responseJson.getJSONArray("venues");
 
             for (int i = 0; i < venuesJson.length(); i++) {

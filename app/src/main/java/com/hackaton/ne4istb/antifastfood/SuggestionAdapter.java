@@ -51,9 +51,9 @@ public class SuggestionAdapter extends BaseAdapter {
             holder = (ViewHolder) newView.getTag();
         }
 
-        holder.name.setText("Name: " + curr.getName());
-        holder.address.setText("Address: " + curr.getAddress());
-        holder.site.setText("Site: " + curr.getSite());
+        holder.name.setText(mContext.getString(R.string.name) + curr.getName());
+        holder.address.setText(mContext.getString(R.string.address) + curr.getAddress());
+        holder.site.setText(mContext.getString(R.string.site) + curr.getSite());
 
         return newView;
     }

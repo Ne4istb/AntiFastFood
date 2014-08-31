@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AntiFastFood</string>
+    <string name="app_name">Anti Fast Food</string>
+    <string name="suggestions_title">Пропонуємо вам кращі місця</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_suggestion">SuggestionActivity</string>
+    <string name="name">Назва: </string>
+    <string name="address">Адреса: </string>
+    <string name="site">Сайт: </string>
+    <string name="run_away">Убегай!</string>
+    <string name="suggestion_notification">Ты возле фастфуда. Не вздумай в него зайти!</string>
 
 </resources>

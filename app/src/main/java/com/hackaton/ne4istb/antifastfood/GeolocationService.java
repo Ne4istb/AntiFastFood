@@ -10,6 +10,8 @@ import android.util.Log;
 
 public class GeolocationService extends Service {
 
+    public static final int UPDATE_RADIUS = 3000;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -19,10 +21,10 @@ public class GeolocationService extends Service {
         LocationListener locationListener = new CurrentLocationListener(this);
 
         locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, CurrentLocationListener.UPDATE_PERIOD, 10, locationListener);
+                LocationManager.GPS_PROVIDER, CurrentLocationListener.UPDATE_PERIOD, UPDATE_RADIUS, locationListener);
 
         locationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER, CurrentLocationListener.UPDATE_PERIOD, 10, locationListener);
+                LocationManager.NETWORK_PROVIDER, CurrentLocationListener.UPDATE_PERIOD, UPDATE_RADIUS, locationListener);
 
         return super.onStartCommand(intent, flags, startId);
     }

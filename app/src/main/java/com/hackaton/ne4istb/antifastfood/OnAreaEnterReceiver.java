@@ -23,16 +23,19 @@ public class OnAreaEnterReceiver extends BroadcastReceiver {
     }
 
     private void showWarningNotification(Context context) {
+
         Notification.Builder notificationBuilder =  new Notification.Builder(context);
 
-        PendingIntent openActivityIntent = PendingIntent.getActivity(context, 1, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(context, SuggestionActivity.class);
+
+        PendingIntent openActivityIntent = PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         notificationBuilder
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("Убегай!")
-                .setContentText("Ты возле фастфуда. Не вздумай в него зайти!")
+                .setContentTitle(context.getString(R.string.run_away))
+                .setContentText(context.getString(R.string.suggestion_notification))
                 .setVibrate(new long[]{500, 500})
 //                .setSound(alarmSound)
                 .setContentIntent(openActivityIntent)
