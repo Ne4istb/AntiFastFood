@@ -114,7 +114,7 @@ public class SuggestionAdapter extends BaseAdapter {
             holder.image.setImageBitmap(cachedImage);
         }
 
-        newView.setOnClickListener(new View.OnClickListener() {
+        holder.googleWay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -124,6 +124,17 @@ public class SuggestionAdapter extends BaseAdapter {
                         + "&daddr=" + Double.toString(curr.getCoordinate().getLatitude())
                         + "," + Double.toString(curr.getCoordinate().getLongtitude());
 
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse(uriString));
+                mContext.startActivity(intent);
+            }
+        });
+
+        newView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String uriString = "https://foursquare.com/venue/" + curr.getId();
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                         Uri.parse(uriString));
                 mContext.startActivity(intent);

@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Anti Fast Food</string>
-    <string name="suggestions_title">Пропонуємо вам кращі місця</string>
+    <string name="suggestions_title">Місця з корисною їжею</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_suggestion">SuggestionActivity</string>
@@ -10,7 +10,7 @@
     <string name="address">Адреса: </string>
     <string name="distance">Відстань до закладу: </string>
     <string name="site">Сайт: </string>
-    <string name="run_away">Тікай!</string>
-    <string name="suggestion_notification">Ти поряд із фастфудом. Обери краще щось корисніше!</string>
+    <string name="run_away">Ти поряд із фастфудом. Тікай!</string>
+    <string name="suggestion_notification">Обери краще щось корисніше!</string>
 
 </resources>
