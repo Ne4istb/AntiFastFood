@@ -155,6 +155,7 @@ public class SuggestionActivity extends Activity {
                 JSONObject venueJson = venuesJson.getJSONObject(i);
 
                 String name = venueJson.getString("name");
+                String id = venueJson.getString("id");
 
                 String url = "";
                 if (venueJson.has("url"))
@@ -170,7 +171,19 @@ public class SuggestionActivity extends Activity {
                 Double longitude = locationJSON.getDouble("lng");
                 Integer distance = locationJSON.getInt("distance");
 
-                suggestions.add(new SuggestionRecord(name, address, url, new Coordinate(latitude, longitude), distance));
+                JSONArray categoriesJSON = venueJson.getJSONArray("categories");
+                JSONObject primaryCategory = null;
+                for (int j=0; j<categoriesJSON.length(); j++){
+                    if (categoriesJSON.getJSONObject(j).getBoolean("primary")) {
+                        primaryCategory = categoriesJSON.getJSONObject(j);
+                        break;
+                    }
+                }
+
+                JSONObject icon = primaryCategory.getJSONObject("icon");
+                String thumbnail = icon.getString("prefix") + "64" + icon.getString("suffix");
+
+                suggestions.add(new SuggestionRecord(id, name, address, url, new Coordinate(latitude, longitude), distance, thumbnail));
             }
 
             return suggestions;
