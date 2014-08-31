@@ -76,7 +76,13 @@
 
   SVGEl.prototype.showImage = function() {
     var nameElem = document.getElementById("mac")
+    var btnElem = document.getElementById("btn")
+
     nameElem.classList.add("clear")
+    setTimeout(function(){
+      nameElem.classList.add('logoup')
+      btnElem.classList.add('animation')
+    }, 200)
   };
 
   function getViewportH() {
@@ -130,7 +136,7 @@
       svgArr = new Array(),
       didScroll = false,
       resizeTimeout;
-    console.log(document.querySelectorAll( '#mainsvg svg' ))
+    
     // the svgs already shown...
     svgs.forEach( function( el, i ) {
       var svg = new SVGEl( el );
@@ -152,10 +158,10 @@
         if ( resizeTimeout ) {
           clearTimeout( resizeTimeout );
         }
-        resizeTimeout = setTimeout( delayed, 200 );
+        // resizeTimeout = setTimeout( delayed, 200 );
       };
 
-    window.addEventListener( 'resize', resizeHandler, false );
+    // window.addEventListener( 'resize', resizeHandler, false );
   }
 
   init();

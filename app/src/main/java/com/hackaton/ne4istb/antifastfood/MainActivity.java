@@ -66,7 +66,6 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.e("GEO", "test");
         Intent intent = new Intent(this, SuggestionActivity.class);
         startActivity(intent);
         return false;
