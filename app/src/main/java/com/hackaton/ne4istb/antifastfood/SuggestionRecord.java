@@ -9,6 +9,7 @@ public class SuggestionRecord {
     String site;
 
     Integer distance;
+
     Coordinate coordinate;
 
     public SuggestionRecord(String name, String address, String site, Coordinate coordinate, Integer distance) {

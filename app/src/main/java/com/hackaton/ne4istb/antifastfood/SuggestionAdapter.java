@@ -1,6 +1,9 @@
 package com.hackaton.ne4istb.antifastfood;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ public class SuggestionAdapter extends BaseAdapter {
     private ArrayList<SuggestionRecord> list = new ArrayList<SuggestionRecord>();
     private static LayoutInflater inflater = null;
     private Context mContext;
+    private Location location;
 
     public SuggestionAdapter(Context context) {
         mContext = context;
@@ -37,7 +41,7 @@ public class SuggestionAdapter extends BaseAdapter {
         View newView = convertView;
         ViewHolder holder;
 
-        SuggestionRecord curr = list.get(position);
+        final SuggestionRecord curr = list.get(position);
 
         if (null == convertView) {
             holder = new ViewHolder();
@@ -55,7 +59,27 @@ public class SuggestionAdapter extends BaseAdapter {
         holder.address.setText(mContext.getString(R.string.address) + curr.getAddress());
         holder.site.setText(mContext.getString(R.string.site) + curr.getSite());
 
+        newView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String uriString = "http://maps.google.com/maps?" 
+                        + "saddr=" + Double.toString(location.getLatitude())
+                        + "," + Double.toString(location.getLongitude())
+                        + "&daddr=" + Double.toString(curr.getCoordinate().getLatitude())
+                        + "," + Double.toString(curr.getCoordinate().getLongtitude());
+
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse(uriString));
+                mContext.startActivity(intent);
+            }
+        });
+
         return newView;
+    }
+
+    public void setCurrentLocation(Location currentLocation) {
+        location = currentLocation;
     }
 
     static class ViewHolder {

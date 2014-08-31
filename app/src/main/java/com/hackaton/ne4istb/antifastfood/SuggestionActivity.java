@@ -25,6 +25,8 @@ public class SuggestionActivity extends Activity {
 
     private SuggestionAdapter mAdapter;
 
+    Location currentLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,9 @@ public class SuggestionActivity extends Activity {
         setTitle(R.string.suggestions_title);
 
         mAdapter = new SuggestionAdapter(this);
+
+        currentLocation = getLastLocation();
+        mAdapter.setCurrentLocation(currentLocation);
 
         setItems();
 
@@ -60,6 +65,21 @@ public class SuggestionActivity extends Activity {
         return null;
     }
 
+    private Location getLastLocation() {
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (gpsLocation != null)
+            return gpsLocation;
+
+        Location networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (networkLocation != null)
+            return networkLocation;
+
+        return null;
+    }
+
     private class SuggestionsDownloader extends AsyncTask<Object, Object, List<SuggestionRecord>> {
 
         String[] categories = new String[]{
@@ -72,12 +92,11 @@ public class SuggestionActivity extends Activity {
         @Override
         protected List<SuggestionRecord> doInBackground(Object[] params) {
 
-            Location location = getLastLocation();
-            if (location == null)
+            if (currentLocation == null)
                 return null;
 
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
+            double longitude = currentLocation.getLongitude();
+            double latitude = currentLocation.getLatitude();
 
             List<SuggestionRecord> suggestions = new ArrayList<SuggestionRecord>();
 
@@ -153,21 +172,6 @@ public class SuggestionActivity extends Activity {
             }
 
             return suggestions;
-        }
-
-        private Location getLastLocation() {
-
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-            Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (gpsLocation != null)
-                return gpsLocation;
-
-            Location networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (networkLocation != null)
-                return networkLocation;
-
-            return null;
         }
     }
 
