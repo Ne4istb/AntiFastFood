@@ -63,14 +63,25 @@ public class SuggestionAdapter extends BaseAdapter {
             holder.name = (TextView) newView.findViewById(R.id.suggestion_name);
             holder.address = (TextView) newView.findViewById(R.id.suggestion_address);
             holder.site = (TextView) newView.findViewById(R.id.suggestion_site);
+            holder.distance = (TextView) newView.findViewById(R.id.suggestion_distance);
             newView.setTag(holder);
         } else {
             holder = (ViewHolder) newView.getTag();
         }
 
-        holder.name.setText(mContext.getString(R.string.name) + curr.getName());
-        holder.address.setText(mContext.getString(R.string.address) + curr.getAddress());
-        holder.site.setText(mContext.getString(R.string.site) + curr.getSite());
+        holder.name.setText(mContext.getString(R.string.name) + " " + curr.getName());
+
+        if (curr.getAddress().trim() != "")
+            holder.address.setText(mContext.getString(R.string.address) + " " + curr.getAddress());
+        else
+            holder.address.setVisibility(View.GONE);
+
+        if (curr.getSite().trim() != "")
+            holder.site.setText(mContext.getString(R.string.site) + " " + curr.getSite());
+        else
+            holder.address.setVisibility(View.GONE);
+
+        holder.distance.setText(mContext.getString(R.string.distance) + " " + curr.getDistance() + " метрів");
 
 
 
@@ -130,6 +141,7 @@ public class SuggestionAdapter extends BaseAdapter {
         TextView name;
         TextView address;
         TextView site;
+        TextView distance;
         ImageView image;
         ImageView googleWay;
     }

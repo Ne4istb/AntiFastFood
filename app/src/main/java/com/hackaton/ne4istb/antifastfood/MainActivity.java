@@ -30,10 +30,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
         super.onCreate(savedInstanceState);
 
-        onFirstRun();
-
         ActionBar actionBar = getActionBar();
         actionBar.hide();
+
+        onFirstRun();
 
         WebView webView = new WebView(this);
 

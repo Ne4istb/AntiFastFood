@@ -8,9 +8,9 @@
     <string name="title_activity_suggestion">SuggestionActivity</string>
     <string name="name">Назва: </string>
     <string name="address">Адреса: </string>
-    <string name="distance">відстань до закладу: </string>
+    <string name="distance">Відстань до закладу: </string>
     <string name="site">Сайт: </string>
-    <string name="run_away">Убегай!</string>
-    <string name="suggestion_notification">Ты возле фастфуда. Не вздумай в него зайти!</string>
+    <string name="run_away">Тікай!</string>
+    <string name="suggestion_notification">Ти поряд із фастфудом. Обери краще щось корисніше!</string>
 
 </resources>
