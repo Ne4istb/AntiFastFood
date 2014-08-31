@@ -54,13 +54,13 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
     private void onFirstRun() {
 
-        SharedPreferences preference = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
-        boolean firstRun = preference.getBoolean(FIRST_RUN_PREFERENCE, true);
+//        SharedPreferences preference = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+//        boolean firstRun = preference.getBoolean(FIRST_RUN_PREFERENCE, true);
 //        if (firstRun || UtilsHelper.DEBUG) {
-        if (firstRun) {
+//        if (firstRun) {
             startService(new Intent(this, GeolocationService.class));
-            preference.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
-        }
+//            preference.edit().putBoolean(FIRST_RUN_PREFERENCE, false).commit();
+//        }
     }
 
     @Override
