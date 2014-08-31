@@ -69,7 +69,7 @@ path.stroke-thin {
   color: inherit;
   background: none;
   cursor: pointer;
-  padding: 12px 80px;
+  padding: 7px 35px;
   display: inline-block;
   margin: 15px 30px;
   text-transform: uppercase;
@@ -107,7 +107,7 @@ path.stroke-thin {
   opacity: 0;
 }
 .btn-1e:hover:after {
-  height: 260%;
+  height: 180%;
   opacity: 1;
 }
 .btn:after {
@@ -192,7 +192,7 @@ path.stroke-thin {
   -moz-animation-duration: 2s;
   -o-animation-duration: 2s;
   animation-duration: 2s;
-  margin: 80px 0 0 -120px;
+  margin: 70px 0 0 -66px;
   -webkit-animation-duration: opacity 2s;
   -moz-animation-duration: opacity 2s;
   -o-animation-duration: opacity 2s;
