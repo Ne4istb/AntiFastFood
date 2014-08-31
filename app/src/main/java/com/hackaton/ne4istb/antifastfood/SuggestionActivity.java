@@ -2,11 +2,15 @@ package com.hackaton.ne4istb.antifastfood;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -20,6 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class SuggestionActivity extends Activity {
 
@@ -29,9 +34,14 @@ public class SuggestionActivity extends Activity {
     Location currentLocation;
 
     @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestion);
+
+//        void onConfigurationChanged();
 
         setTitle(R.string.suggestions_title);
 
@@ -209,26 +219,7 @@ public class SuggestionActivity extends Activity {
 //        return super.onOptionsItemSelected(item);
 //    }
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//
-//        View leftPaneFragment = findViewById(R.id.left_pane_fragment);
-//        View contentFrame = findViewById(R.id.content_frame);
-//
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            leftPaneFragment.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.MATCH_PARENT, 8f));
-//            contentFrame.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.MATCH_PARENT, 2f));
-//        }
-//        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            leftPaneFragment.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.MATCH_PARENT, 7f));
-//            contentFrame.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.MATCH_PARENT, 3f));
-//        }
-//    }
+
 //    public void iconWay() {
 //        image = (ImageView) findViewById(R.id.googleway);
 //
