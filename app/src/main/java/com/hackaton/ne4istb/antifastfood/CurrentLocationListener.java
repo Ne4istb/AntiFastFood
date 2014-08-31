@@ -126,13 +126,12 @@ public class CurrentLocationListener implements LocationListener {
         PendingIntent openActivityIntent = PendingIntent.getActivity(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
         notificationBuilder
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle("recheck")
                 .setContentText(message)
                 .setVibrate(new long[]{500, 500})
-//                .setSound(alarmSound)
+                .setSound(alarmSound)
                 .setContentIntent(openActivityIntent)
                 .setAutoCancel(true);
 
